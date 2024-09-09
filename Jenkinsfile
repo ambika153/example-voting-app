@@ -10,7 +10,11 @@ pipeline {
     stages {
         stage('CI') {
             steps {
-                sh "echo hello CI JOB"
+                sh '''
+                cd vote
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 061039770271.dkr.ecr.us-east-1.amazonaws.com
+                docker build -t 061039770271.dkr.ecr.us-east-1.amazonaws.com/demo-c48:v${BUILD_NUMBER} .
+                '''
             }
         }
 
